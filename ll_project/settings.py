@@ -22,14 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rf2pb*3$o^n13%4rcuowj%)nkadhy%*w3ahcpam(%zxxxn@!3y'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-rf2pb*3$o^n13%4rcuowj%)nkadhy%*w3ahcpam(%zxxxn@!3y')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # 当在 Render 上运行时关闭 DEBUG
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = []
+# 默认允许本地开发环境访问
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 # 允许 Render 分配的域名访问
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -95,9 +97,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# 新增：从环境变量获取数据库配置（如果存在的话）
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+
+# 如果 Render 环境变量中配置了 DATABASE_URL，则直接重写 DATABASES
+if os.environ.get('DATABASE_URL'):
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -133,10 +137,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
-# 新增：生产环境静态文件配置
+
+# 无论在开发环境还是生产环境，都明确指定静态文件的收集路径
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# 仅在生产环境（非 DEBUG）下开启 Whitenoise 的静态文件压缩与缓存加速
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
