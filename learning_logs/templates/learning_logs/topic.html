@@ -1,25 +1,32 @@
 {% extends 'learning_logs/base.html' %} 
 
 {% block page_header %} 
-    <h1>{{ topic.text }}</h1> 
+    <div class="d-flex justify-content-between align-items-center mt-3 border-bottom pb-3">
+        <h2 class="fw-bold serif-text mb-0" style="color: var(--primary-color);">《{{ topic.text }}》</h2> 
+        <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary rounded-pill px-4 shadow-sm">
+            + 添笔
+        </a> 
+    </div>
 {% endblock page_header %} 
 
 {% block content %} 
-    <p class="mb-4"> 
-      <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary">Add new entry</a> 
-    </p> 
-
+    <div class="mt-4">
     {% for entry in entries %} 
-      <div class="card mb-4 shadow-sm border-0 bg-light"> 
-        <div class="card-header d-flex justify-content-between align-items-center text-muted"> 
-          <span>{{ entry.date_added|date:'M d, Y H:i' }}</span>
-          <a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-sm btn-outline-secondary">edit entry</a> 
+      <div class="card mb-4 bg-white border-0 shadow-sm"> 
+        <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center"> 
+          <span class="badge rounded-pill bg-light text-secondary border px-3 py-2 fw-normal fs-6" style="font-family: monospace, sans-serif;">
+              {{ entry.date_added|date:'Y/m/d H:i' }}
+          </span>
+          <a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">修纂</a> 
         </div> 
-        <div class="card-body fs-5 lh-base">
+        <div class="card-body px-4 pb-4 pt-3 fs-5" style="line-height: 1.8; color: var(--text-main);">
           {{ entry.text|linebreaks }}
         </div> 
       </div> 
     {% empty %} 
-      <p>There are no entries for this topic yet.</p> 
+      <div class="text-center py-5 text-muted card bg-white border-0 shadow-sm">
+          <p class="fs-5 mb-0">此处尚无笔墨，快来写下第一段心得吧。</p> 
+      </div>
     {% endfor %} 
+    </div>
 {% endblock content %}

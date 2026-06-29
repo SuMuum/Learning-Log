@@ -1,17 +1,18 @@
 {% extends "learning_logs/base.html" %} 
 
 {% block page_header %}
-<div class="p-5 mb-4 bg-light border rounded-3 text-center">
-  <div class="container-fluid py-4">
-    <h1 class="display-3 fw-bold">Track your learning.</h1>
+<div class="py-5 mb-4 border-0 rounded-4 text-center position-relative overflow-hidden card" style="background-color: var(--card-bg);">
+  <div class="container-fluid py-5 position-relative">
+    <h1 class="display-3 fw-bold mb-4 serif-text" style="color: var(--primary-color);">格物致知 · 营造卷轴</h1>
 
-    <p class="lead col-md-8 mx-auto fs-4 text-muted mt-3">
-      Make your own Learning Log, and keep a list of topics you're learning
-      about. Whenever you learn something new about a topic, make an entry
-      summarizing what you've learned.
+    <p class="lead col-md-8 mx-auto fs-4 text-secondary mt-3 lh-lg">
+      化繁为简，聚沙成塔。<br>
+      记录每一次技术的探索与思维的火花，搭建属于你的专属知识体系。
     </p>
 
-    <a class="btn btn-primary btn-lg mt-4 px-5" href="{% url 'accounts:register' %}">Register &raquo;</a>
+    <div class="mt-5">
+        <a class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm" href="{% url 'accounts:register' %}">开启记录 &raquo;</a>
+    </div>
   </div>
 </div>
 {% endblock page_header %}

@@ -1,20 +1,28 @@
 {% extends 'learning_logs/base.html' %} 
 
 {% block page_header %} 
-  <h1>Topics</h1> 
+  <div class="d-flex justify-content-between align-items-end border-bottom pb-2">
+    <h2 class="serif-text fw-bold text-dark mb-0">书卷目录 <span class="fs-5 text-muted ms-2 fw-light">Topics</span></h2>
+  </div>
 {% endblock page_header %} 
 
 {% block content %} 
-  <ul class="list-group border-bottom pb-4 mb-4"> 
-    {% for topic in topics %}       
-      <li class="list-group-item border-0"> 
-        <a href="{% url 'learning_logs:topic' topic.id %}" class="text-decoration-none fs-5 fw-semibold"> 
-          {{ topic.text }}
-        </a> 
-      </li> 
-    {% empty %} 
-      <li class="list-group-item border-0 text-muted">No topics have been added yet.</li> 
-    {% endfor %} 
-  </ul> 
-  <a href="{% url 'learning_logs:new_topic' %}" class="btn btn-primary">Add a new topic</a> 
+  <div class="card p-3 bg-white mb-4 border-0 shadow-sm">
+    <ul class="list-group list-group-flush"> 
+      {% for topic in topics %}       
+        <li class="list-group-item border-bottom-dashed py-3 px-4 d-flex justify-content-between align-items-center"> 
+          <a href="{% url 'learning_logs:topic' topic.id %}" class="text-decoration-none fs-5 fw-semibold text-dark"> 
+            {{ topic.text }}
+          </a> 
+          <span class="text-muted opacity-50">&rsaquo;</span>
+        </li> 
+      {% empty %} 
+        <li class="list-group-item border-0 text-muted py-5 text-center fs-5">尚未记载任何篇章。</li> 
+      {% endfor %} 
+    </ul> 
+  </div>
+  
+  <div class="text-end">
+    <a href="{% url 'learning_logs:new_topic' %}" class="btn btn-primary rounded-pill px-4 shadow-sm">+ 新建卷宗</a> 
+  </div>
 {% endblock content %}

@@ -1,14 +1,20 @@
 {% extends 'learning_logs/base.html' %}
 {% load django_bootstrap5 %}
 
-{% block page_header %}
-  <h2>Register your account.</h2>
-{% endblock page_header %}
-
 {% block content %}
-  <form action="{% url 'accounts:register' %}" method="post">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Register" %}
-  </form>
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8 col-lg-6">
+    <div class="card bg-white p-5 shadow-sm border-0">
+      <h2 class="serif-text text-center fw-bold mb-4" style="color: var(--primary-color);">缔结新约</h2>
+      <p class="text-center text-muted mb-4">创建属于你自己的营造卷轴</p>
+      <form action="{% url 'accounts:register' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div class="d-grid gap-2 mt-5">
+          <button type="submit" class="btn btn-primary rounded-pill btn-lg shadow-sm">注 册</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock content %}

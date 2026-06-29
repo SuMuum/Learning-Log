@@ -1,54 +1,123 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Learning Log</title>
+    <title>营造笔记 | Learning Log</title>
     {% load django_bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <style>
+      :root {
+        --primary-color: #466b7c; /* 传统色：霁青 (经典高级蓝) */
+        --bg-color: #f7f7f5;      /* 传统色：纸白 (护眼宣纸色) */
+        --text-main: #2c2e2f;     /* 墨黑 */
+        --accent-color: #a73232;  /* 传统色：丹砂 (强调红) */
+        --card-bg: #ffffff;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+      /* 标题及重点文字应用古典衬线字体 */
+      h1, h2, h3, h4, h5, h6, .navbar-brand, .serif-text {
+        font-family: "Noto Serif SC", "STSong", "华文宋体", "SimSun", serif;
+        letter-spacing: 1px;
+      }
+      /* 导航栏毛玻璃特效 */
+      .navbar {
+        background-color: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 15px rgba(0,0,0,0.04);
+        border-bottom: none !important;
+      }
+      /* 按钮高级动效 */
+      .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(167, 50, 50, 0.25);
+      }
+      /* 卡片悬浮特效 */
+      .card {
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.04);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      }
+      /* 表单输入框优化 */
+      .form-control {
+        background-color: #fbfbfc;
+        border: 1px solid #e2e4e6;
+      }
+      .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(70, 107, 124, 0.2);
+        background-color: #fff;
+      }
+      /* 虚线分割线，仿古籍划线 */
+      .border-bottom-dashed {
+        border-bottom: 1px dashed #e0e0e0;
+      }
+      .list-group-item:hover {
+        background-color: rgba(70, 107, 124, 0.03);
+      }
+    </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border-bottom">
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 sticky-top">
       <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="{% url 'learning_logs:index' %}">Learning Log</a>
+        <a class="navbar-brand fw-bold fs-4 text-dark" href="{% url 'learning_logs:index' %}">
+          Learning Log
+        </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item">
-              <a class="nav-link fs-5" href="{% url 'learning_logs:topics' %}">Topics</a>
+              <a class="nav-link fs-6 fw-semibold text-secondary" href="{% url 'learning_logs:topics' %}">Topics</a>
             </li>
           </ul>
           
           <ul class="navbar-nav ms-auto mb-2 mb-md-0 align-items-center">
             {% if user.is_authenticated %}
               <li class="nav-item">
-                <span class="navbar-text me-3">Hello, {{ user.username }}.</span>
+                <span class="navbar-text me-3 fs-6">Hello, <strong>{{ user.username }}</strong></span>
               </li>
               <li class="nav-item">
                 <form action="{% url 'accounts:logout' %}" method="post" class="m-0">
                   {% csrf_token %}
-                  <button name="submit" class="btn btn-outline-secondary btn-sm">Log out</button>
+                  <button name="submit" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Log out</button>
                 </form>
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+                <a class="nav-link fw-semibold" href="{% url 'accounts:register' %}">Register</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'accounts:login' %}">Log in</a>
+              <li class="nav-item ms-md-2 mt-2 mt-md-0">
+                <a class="nav-link btn btn-primary text-white rounded-pill px-4 py-1" href="{% url 'accounts:login' %}">Log in</a>
               </li>
             {% endif %}
           </ul>
         </div>
       </div>
     </nav>
+
     <main class="container">
-      <div class="pb-2 mb-3 border-bottom">
+      <div class="pb-2 mb-4">
         {% block page_header %}{% endblock page_header %}
       </div>
       {% block content %}{% endblock content %}

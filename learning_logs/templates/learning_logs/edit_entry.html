@@ -1,8 +1,26 @@
-{% extends "learning_logs/base.html" %} {% block content %}
-<p><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></p>
-<p>Edit entry:</p>
-<form action="{% url 'learning_logs:edit_entry' entry.id %}" method="post">
-  {% csrf_token %} {{ form.as_div }}
-  <button name="submit">Save changes</button>
-</form>
+{% extends "learning_logs/base.html" %} 
+{% load django_bootstrap5 %} 
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'learning_logs:topic' topic.id %}" class="text-decoration-none fw-semibold text-secondary">《{{ topic }}》</a></li>
+            <li class="breadcrumb-item active" aria-current="page">修纂条目</li>
+          </ol>
+        </nav>
+
+        <div class="card bg-white p-4 p-md-5 shadow-sm border-0">
+            <h4 class="mb-4 serif-text fw-bold">温故知新</h4>
+            <form action="{% url 'learning_logs:edit_entry' entry.id %}" method="post">
+              {% csrf_token %} 
+              {% bootstrap_form form %} 
+              <div class="text-end mt-4">
+                  <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm">保存修纂</button>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}

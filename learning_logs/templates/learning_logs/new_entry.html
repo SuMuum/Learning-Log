@@ -1,10 +1,26 @@
-{% extends "learning_logs/base.html" %} {% block content %}
-<p><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></p>
+{% extends "learning_logs/base.html" %} 
+{% load django_bootstrap5 %} 
 
-<p>Add a new entry:</p>
-<form action="{% url 'learning_logs:new_entry' topic.id %}" method="post">
-  {% csrf_token %} {{ form.as_div }}
-  <button name="submit">Add entry</button>
-</form>
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'learning_logs:topic' topic.id %}" class="text-decoration-none fw-semibold text-secondary">《{{ topic }}》</a></li>
+            <li class="breadcrumb-item active" aria-current="page">新增笔录</li>
+          </ol>
+        </nav>
 
+        <div class="card bg-white p-4 p-md-5 shadow-sm border-0">
+            <h4 class="mb-4 serif-text fw-bold">挥毫泼墨</h4>
+            <form action="{% url 'learning_logs:new_entry' topic.id %}" method="post">
+              {% csrf_token %} 
+              {% bootstrap_form form %} 
+              <div class="text-end mt-4">
+                  <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm">收笔保存</button>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}
