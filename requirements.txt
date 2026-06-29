@@ -1,0 +1,10 @@
+asgiref @ file:///home/conda/feedstock_root/build_artifacts/asgiref_1751974613617/work
+dj-database-url==3.0.1
+Django @ file:///home/conda/feedstock_root/build_artifacts/django_1754043430463/work
+django-bootstrap5 @ file:///home/conda/feedstock_root/build_artifacts/django-bootstrap5_1754092847275/work
+gunicorn==23.0.0
+packaging==26.2
+psycopg2-binary==2.9.12
+sqlparse @ file:///home/conda/feedstock_root/build_artifacts/sqlparse_1734007102193/work
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1751643513/work
+whitenoise==6.11.0
